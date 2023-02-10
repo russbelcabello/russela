@@ -5,12 +5,26 @@ import { TaskController } from './task/task.controller';
 import { TareaController } from './tarea/tarea.controller';
 import { TareaService } from './tarea/tarea.service';
 import { TareaModule } from './tarea/tarea.module';
-import { TaskModule } from './task/task.module';
-import { UsuarioModule } from './usuario/usuario.module';
-
+import { TaskModule } from './task/task.module'; 
+import { ConfigModule, ConfigService } from '@nestjs/config'; 
+import process from 'process';
 @Module({
-  imports: [TareaModule, TaskModule, UsuarioModule], 
+  imports: [
+    ConfigModule.forRoot(
+      {
+        envFilePath: '.dev.env',
+        isGlobal: true
+      }
+    ),
+    TareaModule,TaskModule], 
   controllers: [AppController, TaskController, TareaController],
   providers: [AppService, TareaService],
 })
-export class AppModule {}
+export class AppModule {
+  static port: number;
+constructor(private readonly cs:ConfigService){ 
+  AppModule.port=this.cs.get('env_port')
+}
+
+
+}
