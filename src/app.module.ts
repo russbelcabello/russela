@@ -6,8 +6,11 @@ import { TareaController } from './tarea/tarea.controller';
 import { TareaService } from './tarea/tarea.service';
 import { TareaModule } from './tarea/tarea.module';
 import { TaskModule } from './task/task.module'; 
-import { ConfigModule, ConfigService } from '@nestjs/config'; 
-import process from 'process';
+import { ConfigModule, ConfigService } from '@nestjs/config';  
+import { Firebase } from './firebase/firebase';
+import { TestModule } from './test/test.module';
+
+
 @Module({
   imports: [
     ConfigModule.forRoot(
@@ -16,9 +19,9 @@ import process from 'process';
         isGlobal: true
       }
     ),
-    TareaModule,TaskModule], 
+    TareaModule,TaskModule, TestModule], 
   controllers: [AppController, TaskController, TareaController],
-  providers: [AppService, TareaService],
+  providers: [AppService, TareaService, Firebase],
 })
 export class AppModule {
   static port: number;
